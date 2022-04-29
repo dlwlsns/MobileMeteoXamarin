@@ -5,9 +5,9 @@ namespace MeteoApp.ViewModels
 {
     public class MeteoListViewModel : BaseViewModel
     {
-        ObservableCollection<Entry> _entries;
+        ObservableCollection<Location> _entries;
 
-        public ObservableCollection<Entry> Entries
+        public ObservableCollection<Location> Entries
         {
             get { return _entries; }
             set
@@ -19,11 +19,11 @@ namespace MeteoApp.ViewModels
 
         public MeteoListViewModel()
         {
-            Entries = new ObservableCollection<Entry>();
+            Entries = new ObservableCollection<Location>();
 
             for (var i = 0; i < 10; i++)
             {
-                var e = new Entry
+                var e = new Location
                 {
                     ID = i,
                     Name = "City " + i

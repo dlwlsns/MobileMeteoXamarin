@@ -5,6 +5,8 @@ namespace MeteoApp
 {
     public partial class App : Application
     {
+        private static LocationDatabase database;
+
         public App()
         {
             InitializeComponent();
@@ -32,5 +34,17 @@ namespace MeteoApp
         protected override void OnResume()
         {
         }
+
+        public static LocationDatabase Database
+        {
+            get
+            {
+                if (database == null) // se l'istanza è nulla, la creo
+                    database = new LocationDatabase();
+                return database; // ritorno l'istanza
+            }
+        }
+
+        
     }
 }
