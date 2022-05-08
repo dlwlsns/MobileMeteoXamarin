@@ -1,4 +1,7 @@
-﻿using MeteoApp.Views;
+﻿using Matcha.BackgroundService;
+using MeteoApp.Models;
+using MeteoApp.Views;
+using Plugin.LocalNotifications;
 using Xamarin.Forms;
 
 namespace MeteoApp
@@ -21,6 +24,12 @@ namespace MeteoApp
             //var nav = new MeteoListPage();
 
             MainPage = nav;
+
+            //Register Periodic Tasks
+            BackgroundAggregatorService.Add(() => new PeriodicTask(3600));
+
+            //Start the background service
+            BackgroundAggregatorService.StartBackgroundService();
         }
 
         protected override void OnStart()
@@ -45,6 +54,5 @@ namespace MeteoApp
             }
         }
 
-        
     }
 }

@@ -12,10 +12,12 @@
 
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.2" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
     <PackageReference Include="Xam.Plugin.Geolocator" Version="4.5.0.6" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Xam.Plugins.Notifier" Version="3.0.1" />
+    <PackageReference Include="Matcha.BackgroundService" Version="1.0.5478" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -34,5 +36,8 @@
     <None Remove="Xam.Plugin.Geolocator" />
     <None Remove="sqlite-net-pcl" />
     <None Remove="Microsoft.Net.Http" />
+    <None Remove="Newtonsoft.Json" />
+    <None Remove="Xam.Plugins.Notifier" />
+    <None Remove="Matcha.BackgroundService" />
   </ItemGroup>
 </Project>

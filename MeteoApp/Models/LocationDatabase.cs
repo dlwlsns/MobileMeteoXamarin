@@ -31,6 +31,14 @@ namespace MeteoApp
         /*
          * Query con statement SQL.
          */
+        public Task<List<Location>> GetItems()
+        {
+            return database.QueryAsync<Location>("SELECT * FROM location");
+        }
+
+        /*
+         * Query con statement SQL.
+         */
         public Task<List<Location>> GetItemsWithWhere(int id)
         {
             return database.QueryAsync<Location>("SELECT * FROM location WHERE id =?", id);

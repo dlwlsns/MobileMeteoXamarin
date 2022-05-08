@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Diagnostics;
+using MeteoApp.Models;
 using MeteoApp.ViewModels;
-using Plugin.Geolocator;
 using Xamarin.Forms;
 
 namespace MeteoApp.Views
 {
     public partial class MeteoListPage : ContentPage
     {
+
         public MeteoListPage()
         {
             InitializeComponent();
             BindingContext = new MeteoListViewModel();
-
-            GetLocation();
         }
 
         protected override void OnAppearing()
@@ -21,29 +19,38 @@ namespace MeteoApp.Views
             base.OnAppearing();
         }
 
-        void OnItemAdded(object sender, EventArgs e)
+        async void OnItemAdded(object sender, EventArgs e)
         {
-            DisplayAlert("Messaggio", "Testo", "OK");
+            string result = await DisplayPromptAsync("New Location", "City:");
+
+            if (result.Equals(""))
+                return;
+
+            var weather = WeatherRequest.GetWeather(result);
+
+            if (weather == null)
+                return;
+
+            Random rng = new Random();
+            int i = rng.Next();
+            Location l = new Location { ID = i, Name = result };
+
+            ((MeteoListViewModel)BindingContext).Entries.Add(l);
+
+            await App.Database.SaveItemAsync(l);
+            OnPropertyChanged();
         }
 
         void OnListItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem != null)
             {
-                Navigation.PushAsync(new MeteoItemPage()
+                Navigation.PushAsync(new MeteoItemPage(e.SelectedItem as Models.Location)
                 {
                     BindingContext = e.SelectedItem as Models.Location
                 });
             }
         }
 
-        async void GetLocation()
-        {
-            var locator = CrossGeolocator.Current; // singleton
-            var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(10));
-            Debug.WriteLine("Position Status: {0}", position.Timestamp);
-            Debug.WriteLine("Position Latitude: {0}", position.Latitude);
-            Debug.WriteLine("Position Longitude: {0}", position.Longitude);
-        }
     }
 }

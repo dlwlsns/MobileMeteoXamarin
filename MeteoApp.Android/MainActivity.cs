@@ -4,6 +4,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using Matcha.BackgroundService.Droid;
 
 namespace MeteoApp.Droid
 {
@@ -12,6 +13,8 @@ namespace MeteoApp.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            BackgroundAggregator.Init(this);
+
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
             base.OnCreate(savedInstanceState);
 

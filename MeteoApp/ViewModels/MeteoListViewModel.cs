@@ -1,5 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using MeteoApp.Models;
+using Plugin.Geolocator;
+using Xamarin.Essentials;
+using Location = MeteoApp.Models.Location;
 
 namespace MeteoApp.ViewModels
 {
@@ -21,16 +27,25 @@ namespace MeteoApp.ViewModels
         {
             Entries = new ObservableCollection<Location>();
 
-            for (var i = 0; i < 10; i++)
-            {
-                var e = new Location
-                {
-                    ID = i,
-                    Name = "City " + i
-                };
+            List<Location> items = App.Database.GetItems().Result;
 
-                Entries.Add(e);
+            int count = items.Count;
+
+            for (var i = 0; i < count; i++)
+            {
+                Entries.Add(items[i]);
             }
+
+            GetLocation();
+
+            OnPropertyChanged();
+        }
+
+        async void GetLocation()
+        {
+            var city = await LocationRequest.GetLocationAsync();
+
+            Entries.Insert(0, new Location { ID = 0, Name = city });
         }
     }
 }
