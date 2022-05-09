@@ -1,6 +1,7 @@
 ﻿using System;
 using MeteoApp.Models;
 using MeteoApp.ViewModels;
+using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 
 namespace MeteoApp.Views
@@ -33,7 +34,8 @@ namespace MeteoApp.Views
 
             Random rng = new Random();
             int i = rng.Next();
-            Location l = new Location { ID = i, Name = result };
+            var temperature = (string)JObject.Parse(weather)["main"]["temp"];
+            Location l = new Location { ID = i, Name = result , Temperature = temperature + "°C" };
 
             ((MeteoListViewModel)BindingContext).Entries.Add(l);
 

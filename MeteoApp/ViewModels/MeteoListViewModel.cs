@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using MeteoApp.Models;
-using Plugin.Geolocator;
-using Xamarin.Essentials;
+using Newtonsoft.Json.Linq;
 using Location = MeteoApp.Models.Location;
 
 namespace MeteoApp.ViewModels
@@ -33,6 +30,9 @@ namespace MeteoApp.ViewModels
 
             for (var i = 0; i < count; i++)
             {
+                var weather = WeatherRequest.GetWeather(items[i].Name);
+                var temperature = (string)JObject.Parse(weather)["main"]["temp"];
+                items[i].Temperature = temperature + "°C";
                 Entries.Add(items[i]);
             }
 
@@ -44,8 +44,10 @@ namespace MeteoApp.ViewModels
         async void GetLocation()
         {
             var city = await LocationRequest.GetLocationAsync();
+            var weather = WeatherRequest.GetWeather(city);
+            var temperature = (string)JObject.Parse(weather)["main"]["temp"];
 
-            Entries.Insert(0, new Location { ID = 0, Name = city });
+            Entries.Insert(0, new Location { ID = 0, Name = city, Temperature = temperature+"°C" });
         }
     }
 }
